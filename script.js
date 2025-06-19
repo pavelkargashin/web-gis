@@ -32,8 +32,7 @@ function addGeoJsonLayer(url, style) {
 
 // Добавление слоев
 Promise.all([
-addGeoJsonLayer('data/layer1.geojson', style1),
-addGeoJsonLayer('data/layer2.geojson', style2)
+addGeoJsonLayer('data/layer1.geojson', style1)
 ]).then(() => {
             // Добавление управления слоями после загрузки всех слоев
             L.control.layers(null, overlays).addTo(map);
