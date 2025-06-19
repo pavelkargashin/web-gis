@@ -25,6 +25,8 @@ var style2 = {
 var style3 = { color: 'green', weight: 2 };
 var style4 = { color: 'orange', weight: 2 };
 var style5 = { color: 'purple', weight: 2 };
+// Создание объекта для управления слоями
+var overlays = {};
 
 // Добавление слоев
 addGeoJsonLayer('data/layer1.geojson', style1);
@@ -33,14 +35,8 @@ addGeoJsonLayer('data/layer3.geojson', style3);
 addGeoJsonLayer('data/layer4.geojson', style4);
 addGeoJsonLayer('data/layer5.geojson', style5);
 
-// Создание объекта для управления слоями
-var overlays = {
-    "слой1": 'data/layer1.geojson',
-    "слой2": 'data/layer2.geojson'};
-
 // Добавление управления слоями
 L.control.layers(null, overlays).addTo(map);
-
 // Пример использования Turf.js для анализа
 function analyzeData() {
     // Здесь можно добавить код для анализа данных с помощью Turf.js
