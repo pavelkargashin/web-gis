@@ -16,37 +16,38 @@ var style2 = {
 };
 
 // Создание объекта для управления слоями
-var overlays = {};
+ var overlays = {};
 
-// Функция для добавления GeoJSON слоев
-function addGeoJsonLayer(url, style) {
-    fetch(url)
-        .then(response => response.json())
-        .then(data => {
-           var geoJsonLayer = L.geoJSON(data, { style: style }).addTo(map);
-            overlays[url] = geoJsonLayer;
-        })
-        .catch(error => console.error("Ошибка загрузки GeoJSON:", error));
-}
+        // Функция для добавления GeoJSON слоев
+        function addGeoJsonLayer(url, style) {
+            return fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    var geoJsonLayer = L.geoJSON(data, { style: style }).addTo(map);
+                    overlays[url] = geoJsonLayer; // Добавляем слой в объект overlays
+                })
+                .catch(error => console.error("Ошибка загрузки GeoJSON:", error));
+        }
 
-// Добавление слоев
-Promise.all([
-addGeoJsonLayer('data/layer1.geojson', style1)
-]).then(() => {
+        // Добавление слоев
+        Promise.all([
+            addGeoJsonLayer('data/layer1.geojson', style1)
+        ]).then(() => {
             // Добавление управления слоями после загрузки всех слоев
             L.control.layers(null, overlays).addTo(map);
-});
-// Пример использования Turf.js для анализа
-function analyzeData() {
-    // Здесь можно добавить код для анализа данных с помощью Turf.js
-    // Например, расчет площади первого слоя
-    fetch('data/layer1.geojson')
-        .then(response => response.json())
-        .then(data => {
-            var area = turf.area(data);
-            console.log('Площадь первого слоя:', area);
         });
-}
+
+        // Пример использования Turf.js для анализа
+        function analyzeData() {
+            // Здесь можно добавить код для анализа данных с помощью Turf.js
+            // Например, расчет площади первого слоя
+            fetch('data/layer1.geojson')
+                .then(response => response.json())
+                .then(data => {
+                    var area = turf.area(turf.featureCollection(data.features));
+                    console.log('Площадь первого слоя:', area);
+                });
+        }
 
 // Вызов функции анализа
 analyzeData();
