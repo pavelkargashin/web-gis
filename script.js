@@ -10,8 +10,10 @@ function addGeoJsonLayer(url, style) {
     fetch(url)
         .then(response => response.json())
         .then(data => {
-            L.geoJSON(data, { style: style }).addTo(map);
-        });
+           var geoJsonLayer = L.geoJSON(data, { style: style }).addTo(map);
+            overlays[url] = geoJsonLayer; // Добавляем слой в объект overlays
+        })
+        .catch(error => console.error("Ошибка загрузки GeoJSON:", error));
 }
 
 // Пример стилей для слоев
