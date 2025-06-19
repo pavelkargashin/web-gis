@@ -50,5 +50,7 @@ document.getElementById('save').addEventListener('click', function() {
         link.download = 'map.png';
         link.href = canvas.toDataURL();
         link.click();
+        }).catch(error => {
+        console.error("Error capturing the map:", error);
     });
 });
