@@ -1,20 +1,10 @@
 // Инициализация карты
 var map = L.map('map').setView([-8.687122389556546, 115.223512696913645], 15);
 // Добавление базового слоя
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+var osmLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19,
+    attribution: '© OpenStreetMap'
 }).addTo(map);
-
-// Функция для добавления GeoJSON слоев
-function addGeoJsonLayer(url, style) {
-    fetch(url)
-        .then(response => response.json())
-        .then(data => {
-           var geoJsonLayer = L.geoJSON(data, { style: style }).addTo(map);
-            overlays[url] = geoJsonLayer; // Добавляем слой в объект overlays
-        })
-        .catch(error => console.error("Ошибка загрузки GeoJSON:", error));
-}
 
 // Пример стилей для слоев
 var style1 = { color: 'red', weight: 2 };
@@ -27,6 +17,18 @@ var style2 = {
 var style3 = { color: 'green', weight: 2 };
 var style4 = { color: 'orange', weight: 2 };
 var style5 = { color: 'purple', weight: 2 };
+
+// Функция для добавления GeoJSON слоев
+function addGeoJsonLayer(url, style) {
+    fetch(url)
+        .then(response => response.json())
+        .then(data => {
+           var geoJsonLayer = L.geoJSON(data, { style: style }).addTo(map);
+            overlays[url] = geoJsonLayer; // Добавляем слой в объект overlays
+        })
+        .catch(error => console.error("Ошибка загрузки GeoJSON:", error));
+};
+
 // Создание объекта для управления слоями
 var overlays = {};
 
