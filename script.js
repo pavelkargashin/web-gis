@@ -36,7 +36,7 @@ addGeoJsonLayer('data/layer5.geojson', style5);
 // Создание объекта для управления слоями
 var overlays = {
     "слой1": 'data/layer1.geojson',
-    "слой2": 'data/layer2.geojson'}
+    "слой2": 'data/layer2.geojson'};
 
 // Добавление управления слоями
 L.control.layers(null, overlays).addTo(map);
