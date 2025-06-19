@@ -14,9 +14,6 @@ var style2 = {
     opacity: 0.7,
     dashArray: '5, 5' // Dashed line
 };
-var style3 = { color: 'green', weight: 2 };
-var style4 = { color: 'orange', weight: 2 };
-var style5 = { color: 'purple', weight: 2 };
 
 // Создание объекта для управления слоями
 var overlays = {};
@@ -36,10 +33,7 @@ function addGeoJsonLayer(url, style) {
 // Добавление слоев
 Promise.all([
 addGeoJsonLayer('data/layer1.geojson', style1),
-addGeoJsonLayer('data/layer2.geojson', style2),
-addGeoJsonLayer('data/layer3.geojson', style3),
-addGeoJsonLayer('data/layer4.geojson', style4),
-addGeoJsonLayer('data/layer5.geojson', style5)
+addGeoJsonLayer('data/layer2.geojson', style2)
 ]).then(() => {
             // Добавление управления слоями после загрузки всех слоев
             L.control.layers(null, overlays).addTo(map);
