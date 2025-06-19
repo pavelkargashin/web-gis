@@ -33,6 +33,14 @@ addGeoJsonLayer('data/layer3.geojson', style3);
 addGeoJsonLayer('data/layer4.geojson', style4);
 addGeoJsonLayer('data/layer5.geojson', style5);
 
+// Создание объекта для управления слоями
+var overlays = {
+    "слой1": 'data/layer1.geojson',
+    "слой2": 'data/layer2.geojson'
+
+// Добавление управления слоями
+L.control.layers(null, overlays).addTo(map);
+
 // Пример использования Turf.js для анализа
 function analyzeData() {
     // Здесь можно добавить код для анализа данных с помощью Turf.js
