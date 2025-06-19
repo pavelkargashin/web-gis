@@ -16,7 +16,12 @@ function addGeoJsonLayer(url, style) {
 
 // Пример стилей для слоев
 var style1 = { color: 'red', weight: 2 };
-var style2 = { color: 'blue', weight: 2 };
+var style2 = {
+    color: 'blue',
+    weight: 2,
+    opacity: 0.7,
+    dashArray: '5, 5' // Dashed line
+};
 var style3 = { color: 'green', weight: 2 };
 var style4 = { color: 'orange', weight: 2 };
 var style5 = { color: 'purple', weight: 2 };
