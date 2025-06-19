@@ -34,14 +34,16 @@ function addGeoJsonLayer(url, style) {
 }
 
 // Добавление слоев
-addGeoJsonLayer('data/layer1.geojson', style1);
-addGeoJsonLayer('data/layer2.geojson', style2);
-addGeoJsonLayer('data/layer3.geojson', style3);
-addGeoJsonLayer('data/layer4.geojson', style4);
-addGeoJsonLayer('data/layer5.geojson', style5);
-
-// Добавление управления слоями
-L.control.layers(null, overlays).addTo(map);
+Promise.all([
+addGeoJsonLayer('data/layer1.geojson', style1),
+addGeoJsonLayer('data/layer2.geojson', style2),
+addGeoJsonLayer('data/layer3.geojson', style3),
+addGeoJsonLayer('data/layer4.geojson', style4),
+addGeoJsonLayer('data/layer5.geojson', style5)
+]).then(() => {
+            // Добавление управления слоями после загрузки всех слоев
+            L.control.layers(null, overlays).addTo(map);
+});
 // Пример использования Turf.js для анализа
 function analyzeData() {
     // Здесь можно добавить код для анализа данных с помощью Turf.js
