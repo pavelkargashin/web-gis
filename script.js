@@ -18,6 +18,9 @@ var style3 = { color: 'green', weight: 2 };
 var style4 = { color: 'orange', weight: 2 };
 var style5 = { color: 'purple', weight: 2 };
 
+// Создание объекта для управления слоями
+var overlays = {};
+
 // Функция для добавления GeoJSON слоев
 function addGeoJsonLayer(url, style) {
     fetch(url)
@@ -25,12 +28,10 @@ function addGeoJsonLayer(url, style) {
         .then(data => {
            var geoJsonLayer = L.geoJSON(data, { style: style }).addTo(map);
             overlays[url] = geoJsonLayer; // Добавляем слой в объект overlays
+        L.control.layers(null, overlays).addTo(map);
         })
         .catch(error => console.error("Ошибка загрузки GeoJSON:", error));
-};
-
-// Создание объекта для управления слоями
-var overlays = {};
+}
 
 // Добавление слоев
 addGeoJsonLayer('data/layer1.geojson', style1);
