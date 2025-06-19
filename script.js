@@ -24,8 +24,7 @@ function addGeoJsonLayer(url, style) {
         .then(response => response.json())
         .then(data => {
            var geoJsonLayer = L.geoJSON(data, { style: style }).addTo(map);
-            overlays[url] = geoJsonLayer; // Добавляем слой в объект overlays
-        L.control.layers(null, overlays).addTo(map);
+            overlays[url] = geoJsonLayer;
         })
         .catch(error => console.error("Ошибка загрузки GeoJSON:", error));
 }
