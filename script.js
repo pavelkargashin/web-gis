@@ -1,7 +1,7 @@
 // script.js
 
 // Инициализация карты
-const map = L.map('map').setView([55.7558, 37.6173], 10); // Координаты Москвы
+const map = L.map('map').setView([-8.688489, 115.214290], 10); // Координаты Москвы
 
 // Добавление слоя OpenStreetMap
 const osmLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
