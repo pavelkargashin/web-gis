@@ -15,29 +15,51 @@ const satelliteLayer = L.tileLayer('https://{s}.satellite.openstreetmap.org/{z}/
     attribution: '© OpenStreetMap contributors'
 });
 
-// Управление слоями
-const baseMaps = {
-    "OSM": osmLayer,
-    "Спутник": satelliteLayer
-};
+// Создание объектов для GeoJSON слоев
+let layer1, layer2;
 
-const layerControl = L.control.layers(baseMaps).addTo(map);
+// Функция для загрузки GeoJSON
+function loadGeoJSON(url) {
+    return fetch(url)
+        .then(response => response.json())
+        .then(data => L.geoJSON(data));
+}
+
+// Загрузка GeoJSON файлов
+Promise.all([
+    loadGeoJSON('data/layer1.geojson').then(layer => {
+        layer1 = layer;
+        layer.addTo(map); // Добавляем слой на карту
+    }),
+    loadGeoJSON('data/layer2.geojson').then(layer => {
+        layer2 = layer;
+        layer.addTo(map); // Добавляем слой на карту
+    })
+]).then(() => {
+    // Управление слоями
+    const baseMaps = {
+        "OSM": osmLayer,
+        "Спутник": satelliteLayer
+    };
+
+    const overlayMaps = {
+        "Слой 1": layer1,
+        "Слой 2": layer2
+    };
+
+    L.control.layers(baseMaps, overlayMaps).addTo(map);
+});
 
 // Сохранение карты в виде изображения
 document.getElementById('saveMap').addEventListener('click', function() {
-    // Убедитесь, что все тайлы загружены
-    map.whenReady(function() {
-        html2canvas(document.querySelector("#map"), {
-            useCORS: true, // Включаем кросс-доменные запросы
-            allowTaint: true, // Разрешаем использование изображений с других доменов
-            backgroundColor: null // Установите фон в прозрачный
-        }).then(canvas => {
+    domtoimage.toPng(document.getElementById('map'))
+        .then(function (dataUrl) {
             const link = document.createElement('a');
             link.download = 'map.png';
-            link.href = canvas.toDataURL('image/png');
+            link.href = dataUrl;
             link.click();
-        }).catch(error => {
-            console.error("Ошибка при захвате карты:", error);
+        })
+        .catch(function (error) {
+            console.error('Ошибка при сохранении карты:', error);
         });
-    });
 });
