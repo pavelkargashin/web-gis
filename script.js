@@ -65,17 +65,27 @@ Promise.all([
 
 
 // Сохранение карты в виде изображения
-document.getElementById('saveMap').addEventListener('click', function() {
-    domtoimage.toPng(document.getElementById('map'))
-        .then(function (dataUrl) {
-            const link = document.createElement('a');
-            link.download = 'map.png';
-            link.href = dataUrl;
-            link.click();
-        })
-        .catch(function (error) {
-            console.error('Ошибка при сохранении карты:', error);
-        });
+
+leafletImage(map, function(err, canvas) {
+    // Создание ссылки для скачивания
+    const link = document.createElement('a');
+    link.download = 'map.png';
+    link.href = canvas.toDataURL();
+    link.click();
 });
+
+
+//document.getElementById('saveMap').addEventListener('click', function() {
+  //  domtoimage.toPng(document.getElementById('map'))
+    //    .then(function (dataUrl) {
+      //      const link = document.createElement('a');
+        //    link.download = 'map.png';
+          //  link.href = dataUrl;
+          //  link.click();
+        //})
+       // .catch(function (error) {
+         //   console.error('Ошибка при сохранении карты:', error);
+       // });
+//});
 
 
