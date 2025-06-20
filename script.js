@@ -62,16 +62,20 @@ Promise.all([
 
     L.control.layers(baseMaps, overlayMaps).addTo(map);
 });
-// Сохранение карты в виде изображения
+
+// Сохранение карты в виде изображения с использованием html2canvas
 document.getElementById('saveMap').addEventListener('click', function() {
-    domtoimage.toPng(document.getElementById('map'))
-        .then(function (dataUrl) {
-            const link = document.createElement('a');
-            link.download = 'map.png';
-            link.href = dataUrl;
-            link.click();
-        })
-        .catch(function (error) {
-            console.error('Ошибка при сохранении карты:', error);
-        });
+    html2canvas(document.getElementById('map'), {
+        useCORS: true,
+        allowTaint: true,
+        backgroundColor: null // Установите фон в прозрачный
+    }).then(canvas => {
+        const link = document.createElement('a');
+        link.download = 'map.png';
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+    }).catch(error => {
+        console.error('Ошибка при сохранении карты:', error);
+    });
 });
+
