@@ -25,10 +25,31 @@ const layerControl = L.control.layers(baseMaps).addTo(map);
 
 // Функция для сохранения карты в PNG
 document.getElementById('saveMap').addEventListener('click', function() {
-    html2canvas(document.querySelector("#map")).then(canvas => {
-        const link = document.createElement('a');
-        link.download = 'map.png';
-        link.href = canvas.toDataURL();
-        link.click();
+    // Сначала создаем временный элемент canvas
+    const canvas = document.createElement('canvas');
+    const context = canvas.getContext('2d');
+
+    // Устанавливаем размеры canvas
+    canvas.width = map.getSize().x;
+    canvas.height = map.getSize().y;
+
+    // Получаем изображение карты
+    map.eachLayer(function(layer) {
+        if (layer instanceof L.TileLayer) {
+            const bounds = map.getBounds();
+            const topLeft = map.latLngToContainerPoint(bounds.getNorthWest());
+            const bottomRight = map.latLngToContainerPoint(bounds.getSouthEast());
+            const img = new Image();
+            img.crossOrigin = 'Anonymous'; // Для кросс-доменных изображений
+            img.src = layer._url.replace('{s}', 'a').replace('{z}', map.getZoom()).replace('{x}', Math.floor((bounds.getWest() + 180) / 360 * Math.pow(2, map.getZoom()))).replace('{y}', Math.floor((1 - (bounds.getNorth() + 90) / 180) / 2 * Math.pow(2, map.getZoom())));
+            img.onload = function() {
+                context.drawImage(img, topLeft.x, topLeft.y);
+                // Сохраняем изображение
+                const link = document.createElement('a');
+                link.download = 'map.png';
+                link.href = canvas.toDataURL();
+                link.click();
+            };
+        }
     });
 });
