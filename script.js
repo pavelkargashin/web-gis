@@ -23,26 +23,21 @@ const baseMaps = {
 
 const layerControl = L.control.layers(baseMaps).addTo(map);
 
-// Функция для сохранения карты в PNG
+// Сохранение карты в виде изображения
 document.getElementById('saveMap').addEventListener('click', function() {
-    // Убедитесь, что карта загружена
-    map.once('load', function() {
+    // Убедитесь, что все тайлы загружены
+    map.whenReady(function() {
         html2canvas(document.querySelector("#map"), {
-            useCORS: true,
-            allowTaint: true,
+            useCORS: true, // Включаем кросс-доменные запросы
+            allowTaint: true, // Разрешаем использование изображений с других доменов
             backgroundColor: null // Установите фон в прозрачный
         }).then(canvas => {
             const link = document.createElement('a');
             link.download = 'map.png';
-            link.href = canvas.toDataURL();
+            link.href = canvas.toDataURL('image/png');
             link.click();
-        }).catch(err => {
-            console.error('Ошибка при сохранении карты:', err);
+        }).catch(error => {
+            console.error("Ошибка при захвате карты:", error);
         });
     });
-});
-
-// Обработчик события загрузки карты
-map.on('load', function() {
-    console.log('Карта загружена');
 });
