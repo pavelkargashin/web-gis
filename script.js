@@ -27,11 +27,11 @@ function loadGeoJSON(url) {
 
 // Загрузка GeoJSON файлов
 Promise.all([
-    loadGeoJSON('data/layer1.geojson').then(layer => {
+    loadGeoJSON('data/layer4.geojson').then(layer => {
         layer1 = layer;
         layer.addTo(map); // Добавляем слой на карту
     }),
-    loadGeoJSON('data/layer2.geojson').then(layer => {
+    loadGeoJSON('data/layer3.geojson').then(layer => {
         layer2 = layer;
         layer.addTo(map); // Добавляем слой на карту
     })
