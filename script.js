@@ -21,19 +21,32 @@ let layer1, layer2;
 // Функция для загрузки GeoJSON
 function loadGeoJSON(url) {
     return fetch(url)
-        .then(response => response.json())
-        .then(data => L.geoJSON(data));
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`Ошибка загрузки: ${response.statusText}`);
+            }
+            return response.json();
+        })
+        .then(data => L.geoJSON(data))
+        .catch(error => {
+            console.error(`Ошибка при загрузке GeoJSON: ${error}`);
+            return null; // Возвращаем null в случае ошибки
+        });
 }
 
 // Загрузка GeoJSON файлов
 Promise.all([
-    loadGeoJSON('data/layer4.geojson').then(layer => {
-        layer1 = layer;
-        layer.addTo(map); // Добавляем слой на карту
+    loadGeoJSON('data/layer1.geojson').then(layer => {
+        if (layer) {
+            layer1 = layer;
+            layer.addTo(map); // Добавляем слой на карту
+        }
     }),
-    loadGeoJSON('data/layer3.geojson').then(layer => {
-        layer2 = layer;
-        layer.addTo(map); // Добавляем слой на карту
+    loadGeoJSON('data/layer2.geojson').then(layer => {
+        if (layer) {
+            layer2 = layer;
+            layer.addTo(map); // Добавляем слой на карту
+        }
     })
 ]).then(() => {
     // Управление слоями
@@ -49,7 +62,6 @@ Promise.all([
 
     L.control.layers(baseMaps, overlayMaps).addTo(map);
 });
-
 // Сохранение карты в виде изображения
 document.getElementById('saveMap').addEventListener('click', function() {
     domtoimage.toPng(document.getElementById('map'))
