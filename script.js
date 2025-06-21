@@ -1,5 +1,5 @@
 // Инициализация карты
-const map = L.map('map').setView([-8.675946, 115.204820], 10);
+const map = L.map('map').setView([-8.675946, 115.204820], 10); // Координаты для Бали
 
 // Добавление слоя OSM
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -8,6 +8,8 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 
 // Загрузка GeoJSON слоев
 let geojsonLayer1, geojsonLayer2;
+
+const overlayMaps = {}; // Инициализация объекта для слоев
 
 // Функция для загрузки GeoJSON
 function loadGeoJSON(url, layerName, color) {
@@ -27,7 +29,7 @@ Promise.all([
 ]).then(() => {
     // Добавление контроллера слоев после загрузки
     L.control.layers(null, overlayMaps).addTo(map);
-});.catch(error => {
+}).catch(error => {
     console.error("Ошибка загрузки GeoJSON:", error);
 });
 
@@ -47,7 +49,7 @@ const drawControl = new L.Control.Draw({
         marker: true
     }
 });
-map.addControl(drawControl);
+map.addControl(drawControl); // Добавление контроллера рисования на карту
 
 // Событие для добавления нарисованных объектов
 map.on(L.Draw.Event.CREATED, function (event) {
