@@ -60,27 +60,20 @@ Promise.all([
     loadGeoJSON('data/layer3.geojson').then(layer => {
         if (layer) {
             layer1 = layer;
-            layer.addTo(map); // Добавляем слой на карту
+            layer.addTo(map);
+            console.log('Слой 1 добавлен:', layer);
         }
     }),
     loadGeoJSON('data/layer4.geojson').then(layer => {
         if (layer) {
             layer2 = layer;
-            layer.addTo(map); // Добавляем слой на карту
+            layer.addTo(map);
+            console.log('Слой 2 добавлен:', layer);
         }
     })
 ]).then(() => {
-    // Управление слоями
-    const baseMaps = {
-        "OSM": osmLayer
-    };
-
-    const overlayMaps = {
-        "Слой 1": layer1,
-        "Слой 2": layer2
-    };
-
-    L.control.layers(baseMaps, overlayMaps).addTo(map);
+    console.log('Все слои добавлены на карту');
+    // Теперь можно вызывать saveMapAsImage
 });
 
 // Функция для сохранения карты в PNG
