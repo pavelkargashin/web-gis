@@ -1,7 +1,7 @@
-// script.js
-
-// Инициализация карты
-const map = L.map('map').setView([-8.688489, 115.214290], 10);
+// Инициализация карты с preferCanvas
+const map = L.map('map', {
+    preferCanvas: true // Устанавливаем preferCanvas в true
+}).setView([-8.688489, 115.214290], 10);
 
 // Создание объекта для хранения нарисованных слоев
 const drawnItems = new L.FeatureGroup();
@@ -28,13 +28,11 @@ map.on(L.Draw.Event.CREATED, function (event) {
     drawnItems.addLayer(layer); // Добавляем слой в группу
 });
 
+// Создание OSM слоя
 const osmLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19,
     attribution: '© OpenStreetMap contributors'
 }).addTo(map);
-
-// Создание объектов для GeoJSON слоев
-let layer1, layer2;
 
 // Функция для загрузки GeoJSON
 function loadGeoJSON(url) {
@@ -45,7 +43,12 @@ function loadGeoJSON(url) {
             }
             return response.json();
         })
-        .then(data => L.geoJSON(data))
+        .then(data => {
+            // Указываем рендерер для GeoJSON
+            return L.geoJSON(data, {
+                renderer: L.canvas() // Устанавливаем рендерер
+            });
+        })
         .catch(error => {
             console.error(`Ошибка при загрузке GeoJSON: ${error}`);
             return null; // Возвращаем null в случае ошибки
@@ -58,14 +61,12 @@ Promise.all([
         if (layer) {
             layer1 = layer;
             layer.addTo(map); // Добавляем слой на карту
-            console.log('Слой 1 добавлен:', layer);
         }
     }),
     loadGeoJSON('data/layer4.geojson').then(layer => {
         if (layer) {
             layer2 = layer;
             layer.addTo(map); // Добавляем слой на карту
-            console.log('Слой 2 добавлен:', layer);
         }
     })
 ]).then(() => {
@@ -83,9 +84,8 @@ Promise.all([
 });
 
 // Функция для сохранения карты в PNG
-
 function saveMapAsImage() {
-    leafletImage(map, { background: true }, function(err, canvas) {
+    leafletImage(map, function(err, canvas) {
         if (err) {
             console.error('Ошибка при сохранении карты:', err);
             return;
@@ -98,7 +98,6 @@ function saveMapAsImage() {
         document.body.removeChild(link);
     });
 }
-
 
 // Обработчик события для кнопки сохранения карты
 document.getElementById('saveMap').addEventListener('click', function() {
@@ -114,3 +113,4 @@ document.getElementById('saveDrawings').addEventListener('click', function() {
     link.setAttribute("download", "drawings.geojson");
     link.click();
 });
+``
