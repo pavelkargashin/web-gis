@@ -35,10 +35,10 @@ const osmLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png
 }).addTo(map);
 
 // Добавление дополнительных слоев (например, спутниковый)
-//const satelliteLayer = L.tileLayer('https://{s}.satellite.openstreetmap.org/{z}/{x}/{y}.png', {
-  //  maxZoom: 19,
-    //attribution: '© OpenStreetMap contributors'
-//});
+const satelliteLayer = L.tileLayer('https://{s}.satellite.openstreetmap.org/{z}/{x}/{y}.png', {
+  maxZoom: 19,
+    attribution: '© OpenStreetMap contributors'
+});
 
 // Создание объектов для GeoJSON слоев
 let layer1, layer2;
