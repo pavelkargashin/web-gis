@@ -89,26 +89,26 @@ Promise.all([
 });
 
 
-html2canvas(document.getElementById('map'), { useCORS: true }).then(function(canvas) {
-    const link = document.createElement('a');
-    link.download = 'map.png';
-    link.href = canvas.toDataURL();
-    link.click();
-}).catch(function(error) {
-    console.error('Ошибка при сохранении карты:', error);
+// Функция для сохранения карты в PNG
+function saveMapAsImage() {
+    html2canvas(document.getElementById('map'), { useCORS: true, allowTaint: true }).then(function(canvas) {
+        const link = document.createElement('a');
+        link.download = 'map.png';
+        link.href = canvas.toDataURL();
+        link.click();
+    }).catch(function(error) {
+        console.error('Ошибка при сохранении карты:', error);
+    });
+}
+
+// Событие для сохранения карты после полной загрузки
+window.addEventListener('load', function() {
+    saveMapAsImage();
 });
 
 
 
 // Сохранение карты в виде изображения
-
-//leafletImage(map, function(err, canvas) {
-    // Создание ссылки для скачивания
-  //  const link = document.createElement('a');
-   // link.download = 'map.png';
-   // link.href = canvas.toDataURL();
-    //link.click();
-//});
 
 document.getElementById('saveDrawings').addEventListener('click', function() {
     const geojson = drawnItems.toGeoJSON();
@@ -118,19 +118,4 @@ document.getElementById('saveDrawings').addEventListener('click', function() {
     link.setAttribute("download", "drawings.geojson");
     link.click();
 });
-
-
-//document.getElementById('saveMap').addEventListener('click', function() {
-  //  domtoimage.toPng(document.getElementById('map'))
-    //    .then(function (dataUrl) {
-      //      const link = document.createElement('a');
-        //    link.download = 'map.png';
-          //  link.href = dataUrl;
-          //  link.click();
-        //})
-       // .catch(function (error) {
-         //   console.error('Ошибка при сохранении карты:', error);
-       // });
-//});
-
 
