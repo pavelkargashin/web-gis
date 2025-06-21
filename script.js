@@ -85,7 +85,10 @@ Promise.all([
 
 // Функция для сохранения карты в PNG
 function saveMapAsImage() {
-    leafletImage(map, function(err, canvas) {
+    leafletImage(map, { 
+        // Убедитесь, что вы передаете правильные параметры
+        background: true 
+    }, function(err, canvas) {
         if (err) {
             console.error('Ошибка при сохранении карты:', err);
             return;
