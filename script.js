@@ -59,15 +59,16 @@ map.on(L.Draw.Event.CREATED, function (event) {
 
 // Функция сохранения карты
 document.getElementById('saveMap').onclick = function() {
-    html2canvas(document.querySelector("#map"), {
-        useCORS: true,
-        onrendered: function(canvas) {
+    domtoimage.toPng(document.getElementById('map'))
+        .then(function (dataUrl) {
             const link = document.createElement('a');
-            link.href = canvas.toDataURL();
+            link.href = dataUrl;
             link.download = 'map.png';
             link.click();
-        }
-    });
+        })
+        .catch(function (error) {
+            console.error('Ошибка при создании изображения:', error);
+        });
 };
 
 // Функция сохранения пользовательских символов в GeoJSON
