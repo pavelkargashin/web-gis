@@ -33,11 +33,6 @@ const osmLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png
     attribution: '© OpenStreetMap contributors'
 }).addTo(map);
 
-const satelliteLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/satellite/{z}/{x}/{y}.png', {
-    maxZoom: 19,
-    attribution: '© OpenStreetMap contributors'
-});
-
 // Создание объектов для GeoJSON слоев
 let layer1, layer2;
 
@@ -74,8 +69,7 @@ Promise.all([
 ]).then(() => {
     // Управление слоями
     const baseMaps = {
-        "OSM": osmLayer,
-        "Спутник": satelliteLayer
+        "OSM": osmLayer        r
     };
 
     const overlayMaps = {
