@@ -28,15 +28,13 @@ map.on(L.Draw.Event.CREATED, function (event) {
     drawnItems.addLayer(layer); // Добавляем слой в группу
 });
 
-// Добавление слоя OpenStreetMap
 const osmLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19,
     attribution: '© OpenStreetMap contributors'
 }).addTo(map);
 
-// Добавление дополнительных слоев (например, спутниковый)
-const satelliteLayer = L.tileLayer('https://{s}.satellite.openstreetmap.org/{z}/{x}/{y}.png', {
-  maxZoom: 19,
+const satelliteLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/satellite/{z}/{x}/{y}.png', {
+    maxZoom: 19,
     attribution: '© OpenStreetMap contributors'
 });
 
