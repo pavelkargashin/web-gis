@@ -88,16 +88,25 @@ Promise.all([
     L.control.layers(baseMaps, overlayMaps).addTo(map);
 });
 
+document.getElementById('saveMap').addEventListener('click', function() {
+    html2canvas(document.getElementById('map')).then(function(canvas) {
+        const link = document.createElement('a');
+        link.download = 'map.png';
+        link.href = canvas.toDataURL();
+        link.click();
+    });
+});
+
 
 // Сохранение карты в виде изображения
 
-leafletImage(map, function(err, canvas) {
+//leafletImage(map, function(err, canvas) {
     // Создание ссылки для скачивания
-    const link = document.createElement('a');
-    link.download = 'map.png';
-    link.href = canvas.toDataURL();
-    link.click();
-});
+  //  const link = document.createElement('a');
+   // link.download = 'map.png';
+   // link.href = canvas.toDataURL();
+    //link.click();
+//});
 
 document.getElementById('saveDrawings').addEventListener('click', function() {
     const geojson = drawnItems.toGeoJSON();
