@@ -27,16 +27,9 @@ Promise.all([
 ]).then(() => {
     // Добавление контроллера слоев после загрузки
     L.control.layers(null, overlayMaps).addTo(map);
+});.catch(error => {
+    console.error("Ошибка загрузки GeoJSON:", error);
 });
-
-
-// Управление слоями
-const overlayMaps = {
-    "Слой 1": geojsonLayer1,
-    "Слой 2": geojsonLayer2
-};
-
-L.control.layers(null, overlayMaps).addTo(map);
 
 // Инициализация Leaflet Draw
 const drawnItems = new L.FeatureGroup();
