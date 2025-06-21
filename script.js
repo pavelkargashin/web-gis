@@ -76,7 +76,7 @@ Promise.all([
 ]).then(() => {
     // Управление слоями
     const baseMaps = {
-        "OSM": osmLayer//,
+        "OSM": osmLayer,
         "Спутник": satelliteLayer
     };
 
