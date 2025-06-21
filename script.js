@@ -105,6 +105,15 @@ leafletImage(map, function(err, canvas) {
     link.click();
 });
 
+document.getElementById('saveDrawings').addEventListener('click', function() {
+    const geojson = drawnItems.toGeoJSON();
+    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(geojson));
+    const link = document.createElement('a');
+    link.setAttribute("href", dataStr);
+    link.setAttribute("download", "drawings.geojson");
+    link.click();
+});
+
 
 //document.getElementById('saveMap').addEventListener('click', function() {
   //  domtoimage.toPng(document.getElementById('map'))
