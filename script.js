@@ -94,8 +94,11 @@ document.getElementById('saveMap').addEventListener('click', function() {
         link.download = 'map.png';
         link.href = canvas.toDataURL();
         link.click();
+    }).catch(function(error) {
+        console.error('Ошибка при сохранении карты:', error);
     });
 });
+
 
 
 // Сохранение карты в виде изображения
