@@ -59,25 +59,16 @@ map.on(L.Draw.Event.CREATED, function (event) {
 
 // Функция сохранения карты
 document.getElementById('saveMap').onclick = function() {
-    // Убедитесь, что все слои добавлены на карту
-    setTimeout(() => {
-        leafletImage(map, { 
-            // Убедитесь, что все слои рендерятся
-            useCORS: true,
-            ignoreHidden: true 
-        }, function(err, canvas) {
-            if (err) {
-                console.error("Ошибка при создании изображения:", err);
-                return;
-            }
+    html2canvas(document.querySelector("#map"), {
+        useCORS: true,
+        onrendered: function(canvas) {
             const link = document.createElement('a');
             link.href = canvas.toDataURL();
             link.download = 'map.png';
             link.click();
-        });
-    }, 100); // Задержка в 100 мс
+        }
+    });
 };
-
 
 // Функция сохранения пользовательских символов в GeoJSON
 document.getElementById('saveGeoJSON').onclick = function() {
