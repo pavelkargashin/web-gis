@@ -3,12 +3,6 @@
 // Инициализация карты
 const map = L.map('map').setView([-8.688489, 115.214290], 10);
 
-// Добавление слоя OpenStreetMap
-const osmLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    maxZoom: 19,
-    attribution: '© OpenStreetMap contributors'
-}).addTo(map);
-
 // Создание объекта для хранения нарисованных слоев
 const drawnItems = new L.FeatureGroup();
 map.addLayer(drawnItems);
