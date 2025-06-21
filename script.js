@@ -58,12 +58,14 @@ Promise.all([
         if (layer) {
             layer1 = layer;
             layer.addTo(map); // Добавляем слой на карту
+            console.log('Слой 1 добавлен:', layer);
         }
     }),
     loadGeoJSON('data/layer4.geojson').then(layer => {
         if (layer) {
             layer2 = layer;
             layer.addTo(map); // Добавляем слой на карту
+            console.log('Слой 2 добавлен:', layer);
         }
     })
 ]).then(() => {
@@ -96,6 +98,7 @@ function saveMapAsImage() {
         document.body.removeChild(link);
     });
 }
+
 
 // Обработчик события для кнопки сохранения карты
 document.getElementById('saveMap').addEventListener('click', function() {
