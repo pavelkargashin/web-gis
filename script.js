@@ -80,7 +80,6 @@ Promise.all([
     L.control.layers(baseMaps, overlayMaps).addTo(map);
 });
 
-
 // Функция для сохранения карты в PNG
 function saveMapAsImage() {
     html2canvas(document.getElementById('map'), { useCORS: true, allowTaint: true }).then(function(canvas) {
@@ -93,15 +92,17 @@ function saveMapAsImage() {
     });
 }
 
-// Событие для сохранения карты после полной загрузки
-window.addEventListener('load', function() {
+// Добавление кнопки для сохранения карты
+const saveButton = document.createElement('button');
+saveButton.innerText = 'Сохранить карту как изображение';
+document.body.appendChild(saveButton);
+
+// Обработчик события для кнопки сохранения карты
+saveButton.addEventListener('click', function() {
     saveMapAsImage();
 });
 
-
-
-// Сохранение карты в виде изображения
-
+// Сохранение нарисованных объектов в GeoJSON
 document.getElementById('saveDrawings').addEventListener('click', function() {
     const geojson = drawnItems.toGeoJSON();
     const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(geojson));
@@ -110,4 +111,3 @@ document.getElementById('saveDrawings').addEventListener('click', function() {
     link.setAttribute("download", "drawings.geojson");
     link.click();
 });
-
