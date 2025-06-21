@@ -5,27 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Веб-ГИС на Leaflet</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-image/leaflet-image.js"></script>
+    <script src="https://unpkg.com/leaflet-draw/dist/leaflet.draw.js"></script>
     <link rel="stylesheet" href="https://unpkg.com/leaflet-draw/dist/leaflet.draw.css" />
-    <style>
-        #map { height: 600px; }
-        #controls { margin: 10px; }
-    </style>
 </head>
 <body>
-    
-    <div id="controls">
-        <button id="saveMap">Сохранить карту как PNG</button>
-        <button id="saveDrawings">Сохранить нарисованные объекты</button>
-    </div>
-    <div id="map"></div>
-
-    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-    <script src="https://unpkg.com/leaflet-draw/dist/leaflet.draw.js"></script>
-    <script src=https://unpkg.com/leaflet-image@latest/leaflet-image.js></script>
-
-    //<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-
-    //<script src="https://cdnjs.cloudflare.com/ajax/libs/dom-to-image/2.6.0/dom-to-image.min.js"></script>
+    <div id="map" style="height: 600px;"></div>
+    <button id="saveMap">Сохранить карту</button>
+    <button id="saveGeoJSON">Сохранить GeoJSON</button>
     <script src="script.js"></script>
 </body>
 </html>
+
+//    <script src=https://unpkg.com/leaflet-image@latest/leaflet-image.js></script>
+
+  
