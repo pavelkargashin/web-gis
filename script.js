@@ -81,22 +81,22 @@ Promise.all([
 });
 
 // Функция для сохранения карты в PNG
+
 function saveMapAsImage() {
-    html2canvas(document.getElementById('map'), {
-        useCORS: true,
-        allowTaint: true,
-        scale: 2 // Увеличение масштаба для лучшего качества
-    }).then(function(canvas) {
+    leafletImage(map, function(err, canvas) {
+        if (err) {
+            console.error('Ошибка при сохранении карты:', err);
+            return;
+        }
         const link = document.createElement('a');
         link.download = 'map.png';
         link.href = canvas.toDataURL();
-        document.body.appendChild(link); // Добавляем ссылку в DOM
+        document.body.appendChild(link);
         link.click();
-        document.body.removeChild(link); // Удаляем ссылку после клика
-    }).catch(function(error) {
-        console.error('Ошибка при сохранении карты:', error);
+        document.body.removeChild(link);
     });
 }
+
 // Обработчик события для кнопки сохранения карты
 document.getElementById('saveMap').addEventListener('click', function() {
     saveMapAsImage();
