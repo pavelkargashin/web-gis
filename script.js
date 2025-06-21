@@ -86,7 +86,9 @@ function saveMapAsImage() {
         const link = document.createElement('a');
         link.download = 'map.png';
         link.href = canvas.toDataURL();
+        document.body.appendChild(link); // Добавляем ссылку в DOM
         link.click();
+        document.body.removeChild(link); // Удаляем ссылку после клика
     }).catch(function(error) {
         console.error('Ошибка при сохранении карты:', error);
     });
