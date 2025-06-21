@@ -82,7 +82,12 @@ Promise.all([
 
 // Функция для сохранения карты в PNG
 function saveMapAsImage() {
-    html2canvas(document.getElementById('map'), { useCORS: true, allowTaint: true }).then(function(canvas) {
+    hfunction saveMapAsImage() {
+    html2canvas(document.getElementById('map'), {
+        useCORS: true,
+        allowTaint: true,
+        scale: 2 // Увеличение масштаба для лучшего качества
+    }).then(function(canvas) {
         const link = document.createElement('a');
         link.download = 'map.png';
         link.href = canvas.toDataURL();
@@ -93,7 +98,6 @@ function saveMapAsImage() {
         console.error('Ошибка при сохранении карты:', error);
     });
 }
-
 // Обработчик события для кнопки сохранения карты
 document.getElementById('saveMap').addEventListener('click', function() {
     saveMapAsImage();
