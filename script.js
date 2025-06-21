@@ -89,15 +89,18 @@ Promise.all([
 });
 
 document.getElementById('saveMap').addEventListener('click', function() {
-    html2canvas(document.getElementById('map')).then(function(canvas) {
-        const link = document.createElement('a');
-        link.download = 'map.png';
-        link.href = canvas.toDataURL();
-        link.click();
-    }).catch(function(error) {
-        console.error('Ошибка при сохранении карты:', error);
-    });
+    setTimeout(() => {
+        html2canvas(document.getElementById('map')).then(function(canvas) {
+            const link = document.createElement('a');
+            link.download = 'map.png';
+            link.href = canvas.toDataURL();
+            link.click();
+        }).catch(function(error) {
+            console.error('Ошибка при сохранении карты:', error);
+        });
+    }, 1000); // Задержка в 1 секунду
 });
+
 
 
 
