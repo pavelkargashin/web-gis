@@ -1,88 +1,76 @@
 // Инициализация карты
-const map = L.map('map').setView([-8.688489, 115.214290], 10);
+const map = L.map('map').setView([55.7558, 37.6173], 10); // Москва
 
-// Создание OSM слоя
-const osmLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+// Добавление слоя OSM
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19,
-    attribution: '© OpenStreetMap contributors'
 }).addTo(map);
 
-// Функция для загрузки GeoJSON
-function loadGeoJSON(url) {
-    return fetch(url)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`Ошибка загрузки: ${response.statusText}`);
-            }
-            return response.json();
-        })
-        .then(data => {
-            return L.geoJSON(data);
-        })
-        .catch(error => {
-            console.error(`Ошибка при загрузке GeoJSON: ${error}`);
-            return null;
-        });
-}
+// Загрузка GeoJSON слоев
+let geojsonLayer1, geojsonLayer2;
 
-// Загрузка GeoJSON файлов
-Promise.all([
-    loadGeoJSON('data/layer3.geojson').then(layer => {
-        if (layer) {
-            layer.addTo(map);
-            console.log('Слой 1 добавлен:', layer);
-        }
-    }),
-    loadGeoJSON('data/layer4.geojson').then(layer => {
-        if (layer) {
-            layer.addTo(map);
-            console.log('Слой 2 добавлен:', layer);
-        }
-    })
-]).then(() => {
-    console.log('Все слои добавлены на карту');
-});
-
- // Управление слоями
-    const baseMaps = {
-        "OSM": osmLayer
-    };
-
-    const overlayMaps = {
-        "Слой 1": layer1,
-        "Слой 2": layer2
-    };
-
-    L.control.layers(baseMaps, overlayMaps).addTo(map);
-});
-
-// Функция для сохранения карты в PNG
-function saveMapAsImage() {
-    leafletImage(map, { background: true }, function(err, canvas) {
-        if (err) {
-            console.error('Ошибка при сохранении карты:', err);
-            return;
-        }
-        const link = document.createElement('a');
-        link.download = 'map.png';
-        link.href = canvas.toDataURL();
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
+fetch('path/to/your/geojson1.geojson')
+    .then(response => response.json())
+    .then(data => {
+        geojsonLayer1 = L.geoJSON(data, { style: { color: 'blue' } }).addTo(map);
     });
-}
 
-// Обработчик события для кнопки сохранения карты
-document.getElementById('saveMap').addEventListener('click', function() {
-    saveMapAsImage();
+fetch('path/to/your/geojson2.geojson')
+    .then(response => response.json())
+    .then(data => {
+        geojsonLayer2 = L.geoJSON(data, { style: { color: 'red' } }).addTo(map);
+    });
+
+// Управление слоями
+const overlayMaps = {
+    "Слой 1": geojsonLayer1,
+    "Слой 2": geojsonLayer2
+};
+
+L.control.layers(null, overlayMaps).addTo(map);
+
+// Инициализация Leaflet Draw
+const drawnItems = new L.FeatureGroup();
+map.addLayer(drawnItems);
+
+const drawControl = new L.Control.Draw({
+    edit: {
+        featureGroup: drawnItems
+    },
+    draw: {
+        polygon: true,
+        polyline: true,
+        rectangle: true,
+        circle: false,
+        marker: true
+    }
+});
+map.addControl(drawControl);
+
+// Событие для добавления нарисованных объектов
+map.on(L.Draw.Event.CREATED, function (event) {
+    const layer = event.layer;
+    drawnItems.addLayer(layer);
 });
 
-// Сохранение нарисованных объектов в GeoJSON
-document.getElementById('saveDrawings').addEventListener('click', function() {
+// Функция сохранения карты
+document.getElementById('saveMap').onclick = function() {
+    leafletImage(map, function(err, canvas) {
+        const link = document.createElement('a');
+        link.href = canvas.toDataURL();
+        link.download = 'map.png';
+        link.click();
+    });
+};
+
+// Функция сохранения пользовательских символов в GeoJSON
+document.getElementById('saveGeoJSON').onclick = function() {
     const geojson = drawnItems.toGeoJSON();
     const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(geojson));
-    const link = document.createElement('a');
-    link.setAttribute("href", dataStr);
-    link.setAttribute("download", "drawings.geojson");
-    link.click();
-});
+    const downloadAnchorNode = document.createElement('a');
+    downloadAnchorNode.setAttribute("href", dataStr);
+    downloadAnchorNode.setAttribute("download", "drawn_features.geojson");
+    document.body.appendChild(downloadAnchorNode); // требуется для Firefox
+    downloadAnchorNode.click();
+    downloadAnchorNode.remove();
+};
