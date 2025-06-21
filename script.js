@@ -9,17 +9,26 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 // Загрузка GeoJSON слоев
 let geojsonLayer1, geojsonLayer2;
 
-fetch('data/layer3.geojson')
-    .then(response => response.json())
-    .then(data => {
-        geojsonLayer1 = L.geoJSON(data, { style: { color: 'blue' } }).addTo(map);
-    });
+// Функция для загрузки GeoJSON
+function loadGeoJSON(url, layerName, color) {
+    return fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            const layer = L.geoJSON(data, { style: { color: color } });
+            layer.addTo(map);
+            overlayMaps[layerName] = layer; // Добавляем слой в overlayMaps
+        });
+}
 
-fetch('data/layer4.geojson')
-    .then(response => response.json())
-    .then(data => {
-        geojsonLayer2 = L.geoJSON(data, { style: { color: 'red' } }).addTo(map);
-    });
+// Загрузка слоев
+Promise.all([
+    loadGeoJSON('data/layer3.geojson', 'Слой 1', 'blue'),
+    loadGeoJSON('data/layer4.geojson', 'Слой 2', 'red')
+]).then(() => {
+    // Добавление контроллера слоев после загрузки
+    L.control.layers(null, overlayMaps).addTo(map);
+});
+
 
 // Управление слоями
 const overlayMaps = {
