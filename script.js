@@ -9,13 +9,13 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 // Загрузка GeoJSON слоев
 let geojsonLayer1, geojsonLayer2;
 
-fetch('path/to/your/geojson1.geojson')
+fetch('data/layer3.geojson')
     .then(response => response.json())
     .then(data => {
         geojsonLayer1 = L.geoJSON(data, { style: { color: 'blue' } }).addTo(map);
     });
 
-fetch('path/to/your/geojson2.geojson')
+fetch('data/layer4.geojson')
     .then(response => response.json())
     .then(data => {
         geojsonLayer2 = L.geoJSON(data, { style: { color: 'red' } }).addTo(map);
