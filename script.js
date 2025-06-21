@@ -82,7 +82,6 @@ Promise.all([
 
 // Функция для сохранения карты в PNG
 function saveMapAsImage() {
-    hfunction saveMapAsImage() {
     html2canvas(document.getElementById('map'), {
         useCORS: true,
         allowTaint: true,
