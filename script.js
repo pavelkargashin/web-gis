@@ -61,7 +61,11 @@ map.on(L.Draw.Event.CREATED, function (event) {
 document.getElementById('saveMap').onclick = function() {
     // Убедитесь, что все слои добавлены на карту
     setTimeout(() => {
-        leafletImage(map, function(err, canvas) {
+        leafletImage(map, { 
+            // Убедитесь, что все слои рендерятся
+            useCORS: true,
+            ignoreHidden: true 
+        }, function(err, canvas) {
             if (err) {
                 console.error("Ошибка при создании изображения:", err);
                 return;
@@ -73,6 +77,7 @@ document.getElementById('saveMap').onclick = function() {
         });
     }, 100); // Задержка в 100 мс
 };
+
 
 // Функция сохранения пользовательских символов в GeoJSON
 document.getElementById('saveGeoJSON').onclick = function() {
