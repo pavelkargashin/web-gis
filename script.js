@@ -94,17 +94,17 @@ function saveMapAsImage() {
     });
 }
 
-// Добавление кнопки для сохранения карты
-const saveButton = document.createElement('button');
-saveButton.innerText = 'Сохранить карту как изображение';
-document.body.appendChild(saveButton);
-
 // Обработчик события для кнопки сохранения карты
-saveButton.addEventListener('click', function() {
+document.getElementById('saveMap').addEventListener('click', function() {
     saveMapAsImage();
 });
 
 // Сохранение нарисованных объектов в GeoJSON
 document.getElementById('saveDrawings').addEventListener('click', function() {
     const geojson = drawnItems.toGeoJSON();
-    const dataStr
+    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(geojson));
+    const link = document.createElement('a');
+    link.setAttribute("href", dataStr);
+    link.setAttribute("download", "drawings.geojson");
+    link.click();
+});
