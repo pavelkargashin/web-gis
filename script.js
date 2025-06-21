@@ -1,32 +1,5 @@
-// Инициализация карты с preferCanvas
-const map = L.map('map', {
-    preferCanvas: true // Устанавливаем preferCanvas в true
-}).setView([-8.688489, 115.214290], 10);
-
-// Создание объекта для хранения нарисованных слоев
-const drawnItems = new L.FeatureGroup();
-map.addLayer(drawnItems);
-
-// Инициализация Leaflet.draw
-const drawControl = new L.Control.Draw({
-    edit: {
-        featureGroup: drawnItems // Группа для редактирования
-    },
-    draw: {
-        polygon: true, // Включить рисование полигонов
-        polyline: false, // Отключить рисование линий
-        rectangle: false, // Отключить рисование прямоугольников
-        circle: false, // Отключить рисование кругов
-        marker: true // Включить рисование маркеров
-    }
-});
-map.addControl(drawControl);
-
-// Обработчик событий для добавления нарисованных объектов на карту
-map.on(L.Draw.Event.CREATED, function (event) {
-    const layer = event.layer;
-    drawnItems.addLayer(layer); // Добавляем слой в группу
-});
+// Инициализация карты
+const map = L.map('map').setView([-8.688489, 115.214290], 10);
 
 // Создание OSM слоя
 const osmLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -44,14 +17,11 @@ function loadGeoJSON(url) {
             return response.json();
         })
         .then(data => {
-            // Указываем рендерер для GeoJSON
-            return L.geoJSON(data, {
-                renderer: L.canvas() // Устанавливаем рендерер
-            });
+            return L.geoJSON(data);
         })
         .catch(error => {
             console.error(`Ошибка при загрузке GeoJSON: ${error}`);
-            return null; // Возвращаем null в случае ошибки
+            return null;
         });
 }
 
@@ -59,29 +29,36 @@ function loadGeoJSON(url) {
 Promise.all([
     loadGeoJSON('data/layer3.geojson').then(layer => {
         if (layer) {
-            layer1 = layer;
             layer.addTo(map);
             console.log('Слой 1 добавлен:', layer);
         }
     }),
     loadGeoJSON('data/layer4.geojson').then(layer => {
         if (layer) {
-            layer2 = layer;
             layer.addTo(map);
             console.log('Слой 2 добавлен:', layer);
         }
     })
 ]).then(() => {
     console.log('Все слои добавлены на карту');
-    // Теперь можно вызывать saveMapAsImage
+});
+
+ // Управление слоями
+    const baseMaps = {
+        "OSM": osmLayer
+    };
+
+    const overlayMaps = {
+        "Слой 1": layer1,
+        "Слой 2": layer2
+    };
+
+    L.control.layers(baseMaps, overlayMaps).addTo(map);
 });
 
 // Функция для сохранения карты в PNG
 function saveMapAsImage() {
-    leafletImage(map, { 
-        // Убедитесь, что вы передаете правильные параметры
-        background: true 
-    }, function(err, canvas) {
+    leafletImage(map, { background: true }, function(err, canvas) {
         if (err) {
             console.error('Ошибка при сохранении карты:', err);
             return;
