@@ -69,7 +69,7 @@ Promise.all([
 ]).then(() => {
     // Управление слоями
     const baseMaps = {
-        "OSM": osmLayer        r
+        "OSM": osmLayer
     };
 
     const overlayMaps = {
