@@ -77,7 +77,7 @@ Promise.all([
     // Управление слоями
     const baseMaps = {
         "OSM": osmLayer//,
-        //"Спутник": satelliteLayer
+        "Спутник": satelliteLayer
     };
 
     const overlayMaps = {
