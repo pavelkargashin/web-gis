@@ -107,9 +107,4 @@ saveButton.addEventListener('click', function() {
 // Сохранение нарисованных объектов в GeoJSON
 document.getElementById('saveDrawings').addEventListener('click', function() {
     const geojson = drawnItems.toGeoJSON();
-    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(geojson));
-    const link = document.createElement('a');
-    link.setAttribute("href", dataStr);
-    link.setAttribute("download", "drawings.geojson");
-    link.click();
-});
+    const dataStr
