@@ -113,4 +113,3 @@ document.getElementById('saveDrawings').addEventListener('click', function() {
     link.setAttribute("download", "drawings.geojson");
     link.click();
 });
-``
