@@ -59,7 +59,7 @@ map.on(L.Draw.Event.CREATED, function (event) {
 
 // Функция сохранения карты
 document.getElementById('saveMap').onclick = function() {
-    domtoimage.toPng(document.getElementById('map'))
+    domtoimage.toPng(document.getElementById('map'), { bgcolor: '#ffffff' })
         .then(function (dataUrl) {
             const link = document.createElement('a');
             link.href = dataUrl;
@@ -70,6 +70,7 @@ document.getElementById('saveMap').onclick = function() {
             console.error('Ошибка при создании изображения:', error);
         });
 };
+
 
 // Функция сохранения пользовательских символов в GeoJSON
 document.getElementById('saveGeoJSON').onclick = function() {
